@@ -1,0 +1,4 @@
+[Identity Columns](https://www.postgresql.org/docs/current/ddl-identity-columns.html)
+> The clauses ALWAYS and BY DEFAULT in the column definition determine how explicitly user-specified values are handled in INSERT and UPDATE commands. In an INSERT command, if ALWAYS is selected, a user-specified value is only accepted if the INSERT statement specifies OVERRIDING SYSTEM VALUE. If BY DEFAULT is selected, then the user-specified value takes precedence. Thus, using BY DEFAULT results in a behavior more similar to default values, where the default value can be overridden by an explicit value, whereas ALWAYS provides some more protection against accidentally inserting an explicit value.
+
+列定义中的 ALWAYS 和 BY DEFAULT 子句决定了在 INSERT 和 UPDATE 命令中如何处理明确的用户指定值。 在 INSERT 命令中，如果选择了 ALWAYS，则只有在 INSERT 语句指定了 OVERRIDING SYSTEM VALUE 时，才会接受用户指定的值。 如果选择 BY DEFAULT，则用户指定的值优先。 因此，使用 BY DEFAULT 会产生更类似于默认值的行为，即默认值可以被显式值覆盖，而 ALWAYS 则提供了更多保护，防止意外插入显式值。
