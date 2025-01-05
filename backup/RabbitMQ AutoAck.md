@@ -1,0 +1,3 @@
+> When autoAck (also known as noAck) is true, the server will acknowledge deliveries to this consumer prior to writing the delivery to the network.  When autoAck is true, the consumer should not call Delivery.Ack. Automatically acknowledging deliveries means that some deliveries may get lost if the consumer is unable to process them after the server delivers them.
+
+当 `autoAck`（也称为 `noAck`）为真时，服务器将在向网络写入交付之前确认向该消费者的交付。 当 `autoAck` 为真时，消费者不应调用 `Delivery.Ack`。自动确认交付意味着：如果消费者无法在服务器交付后进行处理，某些交付可能会**丢失**。
