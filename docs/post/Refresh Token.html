@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="##### `Refresh Token`是什么？
+出于安全目的，访问令牌的有效期可能很短。">
+<meta property="og:title" content="Refresh Token">
+<meta property="og:description" content="##### `Refresh Token`是什么？
+出于安全目的，访问令牌的有效期可能很短。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://lnnt.github.io/post/Refresh%20Token.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>Refresh Token</title>
+
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">Refresh Token</h1>
+<div class="title-right">
+    <a href="https://lnnt.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/lnnt/lnnt.github.io/issues/5" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h5><code class="notranslate">Refresh Token</code>是什么？</h5>
+<p>出于安全目的，访问令牌的有效期可能很短。 一旦过期，客户端应用程序就可以使用刷新令牌来 "刷新 "访问令牌。 也就是说，刷新令牌是一种凭证工件，可让客户端应用程序获得新的访问令牌，而无需要求用户再次登录。<br>
+<a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/91289fe5-d78b-42b5-9988-de0494938f9d"><img src="https://github.com/user-attachments/assets/91289fe5-d78b-42b5-9988-de0494938f9d" alt="image" style="max-width: 100%;"></a></p>
+<blockquote>
+<p>在上图中，SPA = Single-Page Application(单页面应用程序)；AS = Authorization Server(授权服务器)；RS = Resource Server(资源服务器)；AT = Access Token(访问令牌)；RT = Refresh Token(刷新令牌)。</p>
+</blockquote>
+<p>只要刷新令牌有效且未过期，客户端应用程序就能获得新的访问令牌。 因此，寿命很长的刷新令牌理论上可以给令牌持有者无限的权力，让他随时获取新的访问令牌，访问受保护的资源。 刷新令牌的持有者可能是合法用户，也可能是恶意用户。 因此，Auth0 等安全公司创建了各种机制，以确保这种功能强大的令牌主要由目标方持有并持续使用。</p>
+<h5>什么时候使用<code class="notranslate">Refresh Tokens</code></h5>
+<p>重要的是要记住，OAuth 2.0 规范定义了访问令牌和刷新令牌。 因此，如果我们要讨论其他身份协议或框架（如 SAML）的授权策略，我们就不会有访问令牌或刷新令牌的概念。<br>
+对于从事网络开发的人来说，访问令牌和刷新令牌是常谈的话题，因为网络通过 OAuth 2.0 框架和 OpenID Connect 协议广泛使用基于令牌的授权和身份验证。<br>
+OAuth 2.0 和 OIDC 结合在一起，带来了一系列授权和身份验证流程。 每个流程都有自己的优点和注意事项，这些优点和注意事项定义了我们应该使用访问和刷新令牌的最佳场景和架构。</p>
+<ul>
+<li>客户端是在服务器上执行的传统网络应用程序吗？</li>
+<li>客户端是单页面应用程序 (SPA)？ 使用带代码交换证明密钥 (PKCE) 的授权代码流。</li>
+<li>客户端是不需要访问令牌的单页面应用程序 (SPA)？ 使用带有表单发布的隐式流程。</li>
+<li>客户端是资源所有者吗？</li>
+<li>客户端是否绝对信任用户凭证？ 您可以使用 "资源所有者密码流"。</li>
+</ul>
+<p>如果有相应的应用程序，也会有相应的流程！<br>
+请记住，根据规范，在使用隐式流程时，授权服务器不应签发刷新令牌。 隐式流程通常在单页面应用程序（SPA）中实施，单页面应用程序在系统架构的前端层运行。<br>
+使用带有验证码交换密钥（PKCE）的授权代码流可以降低隐式流固有的许多风险。 例如，在使用隐式授予类型时，访问令牌是在 URI 片段中传输的，这可能会将其暴露给未授权方。 您可以阅读规范中的 "在隐式流程中滥用访问令牌冒充资源所有者 "部分，了解有关这些漏洞的更多信息。<br>
+不过，在您的应用程序中实施 PKCE 仍然不会影响刷新令牌的安全性。<br>
+<strong>不过，可能并不需要刷新令牌。</strong><br>
+在某些情况下，您仍然可以获得访问令牌，而无需中断用户，也无需依赖刷新令牌的强大功能。 保持会话的其他方法包括 cookie 或静默身份验证。<br>
+然而，每天有数十亿人使用 SPA。 为用户提供兼顾安全性和便利性的用户体验非常重要。 有没有什么办法能让 SPA 以风险更小、更安全的方式享受刷新令牌带来的便利呢？<br>
+当然有！<br>
+提供刷新令牌轮换功能的身份验证平台可以接受在单页面应用程序中使用刷新令牌。 规范强调，如果无法验证刷新令牌是否属于某个客户端（如 SPA），除非刷新令牌已轮换到位，否则不应使用刷新令牌。 让我们在下一节中进一步了解这一安全策略。</p>
+<h5>保证<code class="notranslate">Refresh Tokens</code>的安全</h5>
+<p>短期访问令牌有助于提高应用程序的安全性，但它也有代价：过期后，用户需要再次登录才能获得新的访问令牌。 频繁的重新认证会降低应用程序的用户体验。 即使您这样做是为了保护他们的数据，用户也可能会觉得您的服务令人沮丧或难以使用。<br>
+刷新令牌可以帮助您在安全性和可用性之间取得平衡。 由于刷新令牌的寿命通常较长，因此在寿命较短的访问令牌过期后，您可以使用它们来申请新的访问令牌。<br>
+不过，由于刷新令牌也是不记名令牌，因此我们需要制定策略，在它们被泄漏或泄露时限制或减少它们的使用。 所有持有刷新令牌的人都有权随时获得新的访问令牌。<br>
+在 Auth0，我们创建了一系列功能，通过对刷新令牌的生命周期实施保障和控制，降低了与使用刷新令牌相关的风险。 我们的身份识别平台提供刷新令牌轮换功能，同时还具有自动重复使用检测功能。<br>
+让我们深入探讨一下这项安全技术。</p>
+<h5><code class="notranslate">Refresh Token</code>轮换</h5>
+<p>直到最近，一种帮助 SPA 维护用户会话的强大策略是将授权代码流（Authorization Code Flow）与 PKCE 和静默身份验证结合使用。 刷新令牌轮换是一种使用刷新令牌获取新访问令牌的技术，它超越了静默身份验证。<br>
+刷新令牌轮换可确保应用程序每次交换刷新令牌以获取新访问令牌时，也会返回一个新的刷新令牌。 因此，如果刷新令牌被泄露，就不会再有一个长期存在的刷新令牌，可以提供对资源的非法访问。<br>
+例如，在 Auth0 控制面板中启用刷新令牌轮换后，每次应用程序交换刷新令牌以获得新的访问令牌时，授权服务器也会返回新的刷新-访问令牌对，从而降低了非法访问的威胁。 这种保护措施可帮助您的应用程序减少因令牌受损而导致的重放攻击。</p>
+<h5><code class="notranslate">Refresh Token</code>自动重复使用检测</h5>
+<p>刷新令牌是不记名令牌。 当收到新的访问令牌请求时，授权服务器不可能知道谁是合法用户或恶意用户。<br>
+如果合法用户和恶意用户之间存在竞争条件，我们该如何处理？ 例如：</p>
+<ul>
+<li>合法用户拥有🔄 刷新令牌 1 和🔑 访问令牌 1。</li>
+<li>😈 恶意用户设法从合法用户处窃取了🔄 刷新令牌 1。</li>
+<li>🚓 Auth0 授权服务器将 🔄 刷新令牌 2 和 🔑 访问令牌 2 返回给 🐱 合法用户。</li>
+<li>😈 恶意用户会尝试使用 🔄 刷新令牌 1 获取新的访问令牌。 纯粹邪恶！</li>
+</ul>
+<p>你认为接下来会发生什么？ 恶意用户会设法获得新的访问令牌吗？ 这就是身份识别平台具有🤖 自动重用功能时会发生的情况。<br>
+<strong>检测：</strong></p>
+<ul>
+<li>🚓 Auth0 授权服务器一直在跟踪从原始刷新令牌衍生出来的所有刷新令牌，也就是说，它创建了一个 "令牌家族"。 也就是说，它创建了一个 "令牌系列"。</li>
+<li>🚓 Auth0 授权服务器识别到有人在重复使用 🔄 刷新令牌 1，并立即使包括 🔄 刷新令牌 2 在内的刷新令牌系列失效。</li>
+<li>🚓 Auth0 授权服务器向 😈 恶意用户返回拒绝访问响应。</li>
+<li>🔑访问令牌 2 过期，并且 🐱 合法用户尝试使用 🔄 刷新令牌 2 请求新的刷新访问令牌对。</li>
+<li>🚓 Auth0 授权服务器向 🐱 合法用户返回拒绝访问响应。</li>
+<li>🚓 Auth0 授权服务器要求重新认证以获取新的访问和刷新令牌。</li>
+</ul>
+<p>当以前使用过的刷新令牌被发送到授权服务器时，最近签发的刷新令牌必须立即失效。<br>
+无论合法用户还是恶意用户能否在对方之前用 🔄刷新令牌 1 交换新的刷新-访问令牌对，这种保护机制都能起作用。 如果不执行发送者约束，授权服务器就无法知道在发生重放攻击时哪个行为者是合法的，哪个是恶意的。<br>
+自动重用检测是刷新令牌轮换策略的关键组成部分。 服务器已经使已经使用过的刷新令牌失效。 不过，由于授权服务器无法知道合法用户是否持有最新的刷新令牌，为了安全起见，它会使整个令牌系列失效。</p>
+<h5>刷新令牌帮助我们拥抱隐私工具</h5>
+<p>隐私是我们数字世界的热门话题。 我们不仅需要在安全性和便利性之间取得平衡，还需要在平衡的基础上增加隐私保护。<br>
+浏览器隐私保护技术的最新发展，如智能跟踪防护（ITP），可以防止访问会话 cookie，要求用户重新认证。<br>
+浏览器中没有持久存储机制可以确保只有目标应用程序才能访问。 因此，长寿命刷新令牌并不适合 SPA，因为恶意用户可能会利用漏洞获取这些高价值的人工制品，从而访问受保护的资源。<br>
+由于刷新令牌的轮换并不依赖于对 Auth0 会话 cookie 的访问，因此不会受到 ITP 或类似机制的影响。<br>
+不过，刷新令牌的寿命可能会受到访问令牌寿命的限制。 这意味着我们可以安全地使用刷新令牌来配合浏览器隐私工具，并在不影响用户体验的情况下为终端用户提供持续访问。</p>
+<h5>可以将刷新令牌存储在本地存储中</h5>
+<p>是的，你没看错。 当刷新令牌轮换到位后，我们可以将令牌存储在本地存储或浏览器内存中。 您以前可能听说过（也许是我们说的），我们不应该将令牌存储在本地存储中。</p>
+<p>将令牌存储在浏览器本地存储中可以在刷新页面和浏览器标签页时保持持久性；但是，如果恶意用户使用跨站脚本 (XSS) 攻击在 SPA 中运行 JavaScript，他们就可以检索存储在本地存储中的令牌。 导致 XSS 攻击成功的漏洞可能存在于 SPA 源代码或应用程序使用的任何第三方 JavaScript 代码中，例如 Bootstrap 或 Google Analytics。</p>
+<p>不过，我们可以缩短令牌的绝对令牌过期时间，以降低在本地存储中存储令牌的安全风险。 这可以降低反射 XSS 攻击的影响（但不能降低持久性攻击的影响）。 通过配置，刷新令牌的寿命可能很长。 但是，刷新令牌的轮换会缩短刷新令牌的使用寿命。 刷新只在访问令牌的有效期内有效，而访问令牌的有效期很短。</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://lnnt.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","lnnt/lnnt.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+
+
+</script>
+
+
+</html>
